@@ -1,0 +1,2085 @@
+{
+	"info": {
+		"_postman_id": "b26807a3-1bba-46a8-a1d9-03e750276aff",
+		"name": "HR-SYSTEM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22816530"
+	},
+	"item": [
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "Add Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"\r",
+									"    const result = pm.response.json()\r",
+									"    pm.environment.set(\"pre_req_username\", result.employeeNo);\r",
+									"    pm.environment.set(\"pre_req_password\", result.password);\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_emp_no\", pm.response.json().employeeNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n \"firstName\": \"Randy\",\r\n\"lastName\": \"Gomez\",\r\n\"middleName\": \"Alegre\",\r\n\"citizenship\":\"filipino\",\r\n\"position\": \"accounting assistant\",\r\n\"rank\": \"manager\",\r\n\"department\": \"CORPORATE AND GENERAL ACCOUNTING DEPARTMENT\",\r\n\"location\": \"HEAD OFFICE\",\r\n\"isActive\":true,\r\n\"userGroup\":\"approver\",\r\n\"reportsTo\":\"manager\",\r\n\"dateHired\":\"2015-03-25T12:00:00Z\",\r\n\"employmentStatus\": \"REGULAR\",\r\n\"endOfProbationary\": \"1-Dec-21\",\r\n\"contractEndDate\": \"1-Dec-23\",\r\n\"gender\": \"MALE\",\r\n\"birthDate\": \"1974-08-03\",\r\n\"personalContactNumber\": \"9064195953\",\r\n\"taxExemption\": \"MARRIED\",\r\n\"companyEmail\":\"c{{$timestamp}}@gmail.com\",\r\n\"personalEmail\":\"p{{$timestamp}}@gmail.com\",\r\n\"civilStatus\": \"MARRIED\",\r\n\"religion\":\"ANG DATING DAAN\",\r\n\"NumberOfDependents\": \"3\",\r\n\"sss\": \"3443240796\",\r\n\"philHealth\": \"030255293113\",\r\n\"pagIbig\": \"121233972057\",\r\n\"tin\": \"440996953\",\r\n\"payrollBankAccount\": {\r\n    \"accountName\": \"John Doe\",\r\n    \"accountNumber\": \"1234afasfs\",\r\n    \"bankName\": \"BCD\",\r\n    \"bankBranch\": \"Antipolo\"    \r\n},\r\n\"familyBackground\": [\r\n    {\r\n      \"name\": \"string\",\r\n      \"relation\": \"Parents\",\r\n      \"occupation\": \"string\",\r\n      \"company\": \"string\",\r\n      \"residence\": \"string\"\r\n    }\r\n  ],\r\n  \"emergencyContact\": {\r\n      \"name\": \"Jane Doe\",\r\n      \"address\": \"Higway 54\",\r\n      \"phoneNumber\": \"+63123459\"\r\n  }\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employees",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee with leaves by employee no",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/leaves/:employeeNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								"leaves",
+								":employeeNo"
+							],
+							"variable": [
+								{
+									"key": "employeeNo",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employee with leaves",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/leaves/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								"leaves",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employee (Protected)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Employee ID (Protected)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log('BY ID RESPONSE', pm.response.json())\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update One Record\", function () {\r",
+									"    pm.expect(pm.response.json().modifiedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n   \"personalContactNumber\": \"+63123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employee History",
+			"item": [
+				{
+					"name": "Add Employee HIstory",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_emp_no\", pm.response.json().employeeNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeNo\": \"{{$timestamp}}\",\r\n    \"vacinates\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-history",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-history"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employee history",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-history/protected",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-history",
+								"protected"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Employee ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log('BY ID RESPONSE', pm.response.json())\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-history/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-history",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update One Record\", function () {\r",
+									"    pm.expect(pm.response.json().modifiedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\":null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-history/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-history",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-history/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-history",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User Credentials",
+			"item": [
+				{
+					"name": "Add User Credential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_emp_no\", pm.response.json().employeeNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeNo\": \"{{pre_req_emp_no}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/user-credentials",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"user-credentials"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User Credentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/user-credentials",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"user-credentials"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get By Employee ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log('BY ID RESPONSE', pm.response.json())\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of first name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty('firstName')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/user-credentials/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"user-credentials",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User Credential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update One Record\", function () {\r",
+									"    pm.expect(pm.response.json().modifiedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\":null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-history/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-history",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Credential",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/user-credentials/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"user-credentials",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leave Request",
+			"item": [
+				{
+					"name": "Pre-req Add Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_emp_no\", pm.response.json().employeeNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeNo\": \"{{$timestamp}}\",\r\n    \"firstName\": \"Randy\",\r\n    \"lastName\": \"Gomez\",\r\n    \"middleName\": \"Alegre\",\r\n    \"fsCode\": \"FS-04\",\r\n    \"bioCode\": \"B-04\",\r\n    \"position\": \"PLANNING & SCHEDULING MANAGER\",\r\n    \"rank\": \"MANAGERIAL\",\r\n    \"division\": \"HEAD OFFICE\",\r\n    \"department\": \"Operations Center - Planning & Scheduling \",\r\n    \"designation\": \"HEAD OFFICE\",\r\n    \"dateHired\": \"1-Jun-21\",\r\n    \"yearsInService\": 1,\r\n    \"employmentStatus\": \"REGULAR\",\r\n    \"endOfProbationary\": \"1-Dec-21\",\r\n    \"contractEndDate\": \"1-Dec-23\",\r\n    \"gender\": \"MALE\",\r\n    \"birthDate\": \"2015-03-25T12:00:00Z\",\r\n    \"age\": 29,\r\n    \"contactNumber\": \"9064195953\",\r\n    \"taxExemption\": \"MARRIED\",\r\n    \"email\": \"{{$timestamp}}@gmail.com\",\r\n    \"backAccountNo\": \"1111111111\",\r\n    \"civilStatus\": \"MARRIED\",\r\n    \"NumberOfDependents\": \"3\",\r\n    \"sss\": \"3443240796\",\r\n    \"philHealth\": \"030255293113\",\r\n    \"pagIbig\": \"121233972057\",\r\n    \"tin\": \"440996953\",\r\n    \"address\": \"11 Blk 13 Park Place Ave Park Place Village Cainta Rizal\",\r\n    \"course\": \"BS Civil Engineering\",\r\n    \"educationalAttainment\": \"COLLEGE GRADUATE\",\r\n    \"schoolAttended\": \"2008-2013\",\r\n    \"licensure\": \"Civil Engineer\",\r\n    \"prcIdNo\": \"PRC-01\",\r\n    \"noticeOffense\": \"Notice of offense details\",\r\n    \"audit201\": \"201 Audit\",\r\n    \"remarks\": \"Some remarks\",\r\n    \"cocNo\": \"COC-01\",\r\n    \"vaccineStatus\": \"VACCINATED\",\r\n    \"digitalBulletin\": \"Member\",\r\n    \"viberNumber\": \"093445678\",\r\n    \"vpdcEmail\": \"jayven.abne@vcdcph.com\",\r\n    \"emergencyContactPerson\": \"Aubrey Q. Abne\",\r\n    \"emergencyAddress\": \"11 Block 13 Parkplace Avenue Parkplace Village, Cainta, Rizal\",\r\n    \"emergencyContactNo\": \"9954887546\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employees",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Leave",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_leave_no\", pm.response.json().leaveRequestNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"leaveRequestNo\": {{$timestamp}},\r\n    \"employeeNo\": \"{{pre_req_emp_no}}\",\r\n  \"timestamp\": \"string\",\r\n  \"leaveApplied\": \"string\",\r\n  \"otHoursOffset\": \"string\",\r\n  \"dateToOffsetFrom\": \"string\",\r\n  \"dateToOffsetTo\": \"string\",\r\n  \"dateTimeLeaveFirst\": \"string\",\r\n  \"dateTimeLeaveLast\": \"string\",\r\n  \"leaveDays\": \"string\",\r\n  \"returnDate\": \"string\",\r\n  \"reason\": \"string\",\r\n  \"itineraryFrom\": \"string\",\r\n  \"itineraryTo\": \"string\",\r\n  \"purpose\": \"string\",\r\n  \"dateTimeDeparture\": \"string\",\r\n  \"dateTimeArrival\": \"string\",\r\n  \"information\": \"string\",\r\n  \"immediateSupervisor\": \"string\",\r\n  \"status\": \"string\",\r\n  \"disapprovalReason\": \"string\",\r\n  \"approvedDate\": \"string\",\r\n  \"disapprovedDate\": \"string\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Leave",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of Employee No\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Leave with Employee detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of employeeNo\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/employee",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get leave request by id with employee details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of employee no\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/employee/:leaveNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								"employee",
+								":leaveNo"
+							],
+							"variable": [
+								{
+									"key": "leaveNo",
+									"value": "{{pre_req_leave_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Leave Request  by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log('BY ID RESPONSE', pm.response.json())\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of employeeNo\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/:leaveNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								":leaveNo"
+							],
+							"variable": [
+								{
+									"key": "leaveNo",
+									"value": "{{pre_req_leave_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Leave request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update One Record\", function () {\r",
+									"    pm.expect(pm.response.json().modifiedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \r\n      \"leaveApplied\": \"Vacation Leave (SL)\"\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/:leaveNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								":leaveNo"
+							],
+							"variable": [
+								{
+									"key": "leaveNo",
+									"value": "{{pre_req_leave_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Leave request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/:leaveNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								":leaveNo"
+							],
+							"variable": [
+								{
+									"key": "leaveNo",
+									"value": "{{pre_req_leave_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post-request Delete Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employee leaves",
+			"item": [
+				{
+					"name": "Pre-req Add Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_emp_no\", pm.response.json().employeeNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"employeeNo\": \"{{$timestamp}}\",\r\n    \"firstName\": \"Randy\",\r\n    \"lastName\": \"Gomez\",\r\n    \"middleName\": \"Alegre\",\r\n    \"fsCode\": \"FS-04\",\r\n    \"bioCode\": \"B-04\",\r\n    \"position\": \"PLANNING & SCHEDULING MANAGER\",\r\n    \"rank\": \"MANAGERIAL\",\r\n    \"division\": \"HEAD OFFICE\",\r\n    \"department\": \"Operations Center - Planning & Scheduling \",\r\n    \"designation\": \"HEAD OFFICE\",\r\n    \"dateHired\": \"1-Jun-21\",\r\n    \"yearsInService\": 1,\r\n    \"employmentStatus\": \"REGULAR\",\r\n    \"endOfProbationary\": \"1-Dec-21\",\r\n    \"contractEndDate\": \"1-Dec-23\",\r\n    \"gender\": \"MALE\",\r\n    \"birthDate\": \"2015-03-25T12:00:00Z\",\r\n    \"age\": 29,\r\n    \"contactNumber\": \"9064195953\",\r\n    \"taxExemption\": \"MARRIED\",\r\n    \"email\": \"{{$timestamp}}@gmail.com\",\r\n    \"backAccountNo\": \"1111111111\",\r\n    \"civilStatus\": \"MARRIED\",\r\n    \"NumberOfDependents\": \"3\",\r\n    \"sss\": \"3443240796\",\r\n    \"philHealth\": \"030255293113\",\r\n    \"pagIbig\": \"121233972057\",\r\n    \"tin\": \"440996953\",\r\n    \"address\": \"11 Blk 13 Park Place Ave Park Place Village Cainta Rizal\",\r\n    \"course\": \"BS Civil Engineering\",\r\n    \"educationalAttainment\": \"COLLEGE GRADUATE\",\r\n    \"schoolAttended\": \"2008-2013\",\r\n    \"licensure\": \"Civil Engineer\",\r\n    \"prcIdNo\": \"PRC-01\",\r\n    \"noticeOffense\": \"Notice of offense details\",\r\n    \"audit201\": \"201 Audit\",\r\n    \"remarks\": \"Some remarks\",\r\n    \"cocNo\": \"COC-01\",\r\n    \"vaccineStatus\": \"VACCINATED\",\r\n    \"digitalBulletin\": \"Member\",\r\n    \"viberNumber\": \"093445678\",\r\n    \"vpdcEmail\": \"jayven.abne@vcdcph.com\",\r\n    \"emergencyContactPerson\": \"Aubrey Q. Abne\",\r\n    \"emergencyAddress\": \"11 Block 13 Parkplace Avenue Parkplace Village, Cainta, Rizal\",\r\n    \"emergencyContactNo\": \"9954887546\"\r\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employees",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Employee Leave",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_leave_no\", pm.response.json().leaveRequestNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\"employeeNo\": \"{{pre_req_emp_no}}\",\r\n\"leave\": \"some text\",\r\n\"allowance\": \"some text\",\r\n\"accrued_balance\": \"some text\",\r\n\"used\": \"some text\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-leaves/:employeeNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-leaves",
+								":employeeNo"
+							],
+							"variable": [
+								{
+									"key": "employeeNo",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Employee Leave",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of Employee No\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-leaves/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-leaves",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee leave by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log('BY ID RESPONSE', pm.response.json())\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of employeeNo\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employee-leaves/:employeeNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employee-leaves",
+								":employeeNo"
+							],
+							"variable": [
+								{
+									"key": "employeeNo",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Leave request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update One Record\", function () {\r",
+									"    pm.expect(pm.response.json().modifiedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \r\n      \"leaveApplied\": \"Vacation Leave (SL)\"\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/:leaveNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								":leaveNo"
+							],
+							"variable": [
+								{
+									"key": "leaveNo",
+									"value": "{{pre_req_leave_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Leave request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/leave/:leaveNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave",
+								":leaveNo"
+							],
+							"variable": [
+								{
+									"key": "leaveNo",
+									"value": "{{pre_req_leave_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post-request Delete Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Overtime Request",
+			"item": [
+				{
+					"name": "Pre request",
+					"item": [
+						{
+							"name": "Add Employee",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 201\", function () {\r",
+											"    pm.response.to.have.status(201);\r",
+											"    pm.collectionVariables.set(\"pre_req_emp_no\", pm.response.json().employeeNo);   \r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"employeeNo\": \"{{$timestamp}}\",\r\n    \"firstName\": \"Randy\",\r\n    \"lastName\": \"Gomez\",\r\n    \"middleName\": \"Alegre\",\r\n    \"fsCode\": \"FS-04\",\r\n    \"bioCode\": \"B-04\",\r\n    \"position\": \"PLANNING & SCHEDULING MANAGER\",\r\n    \"rank\": \"MANAGERIAL\",\r\n    \"division\": \"HEAD OFFICE\",\r\n    \"department\": \"Operations Center - Planning & Scheduling \",\r\n    \"designation\": \"HEAD OFFICE\",\r\n    \"dateHired\": \"1-Jun-21\",\r\n    \"yearsInService\": 1,\r\n    \"employmentStatus\": \"REGULAR\",\r\n    \"endOfProbationary\": \"1-Dec-21\",\r\n    \"contractEndDate\": \"1-Dec-23\",\r\n    \"gender\": \"MALE\",\r\n    \"birthDate\": \"2015-03-25T12:00:00Z\",\r\n    \"age\": 29,\r\n    \"contactNumber\": \"9064195953\",\r\n    \"taxExemption\": \"MARRIED\",\r\n    \"email\": \"{{$timestamp}}@gmail.com\",\r\n    \"backAccountNo\": \"1111111111\",\r\n    \"civilStatus\": \"MARRIED\",\r\n    \"NumberOfDependents\": \"3\",\r\n    \"sss\": \"3443240796\",\r\n    \"philHealth\": \"030255293113\",\r\n    \"pagIbig\": \"121233972057\",\r\n    \"tin\": \"440996953\",\r\n    \"address\": \"11 Blk 13 Park Place Ave Park Place Village Cainta Rizal\",\r\n    \"course\": \"BS Civil Engineering\",\r\n    \"educationalAttainment\": \"COLLEGE GRADUATE\",\r\n    \"schoolAttended\": \"2008-2013\",\r\n    \"licensure\": \"Civil Engineer\",\r\n    \"prcIdNo\": \"PRC-01\",\r\n    \"noticeOffense\": \"Notice of offense details\",\r\n    \"audit201\": \"201 Audit\",\r\n    \"remarks\": \"Some remarks\",\r\n    \"cocNo\": \"COC-01\",\r\n    \"vaccineStatus\": \"VACCINATED\",\r\n    \"digitalBulletin\": \"Member\",\r\n    \"viberNumber\": \"093445678\",\r\n    \"vpdcEmail\": \"jayven.abne@vcdcph.com\",\r\n    \"emergencyContactPerson\": \"Aubrey Q. Abne\",\r\n    \"emergencyAddress\": \"11 Block 13 Parkplace Avenue Parkplace Village, Cainta, Rizal\",\r\n    \"emergencyContactNo\": \"9954887546\"\r\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{hrs_base_url}}/employees",
+									"host": [
+										"{{hrs_base_url}}"
+									],
+									"path": [
+										"employees"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Add Overtime Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_overtime_no\", pm.response.json().overtimeRequestNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"timeStamp\": \"{{$timestamp}}\",\r\n  \"overtimeRequestNo\": \"{{$timestamp}}\",\r\n  \"employeeNo\": \"{{pre_req_emp_no}}\",\r\n  \"dateTimeFrom\": \"{{$randomDatePast}}\",\r\n  \"dateTimeTo\": \"{{$randomDateFuture}}\",\r\n  \"isEarlyOt\": true,\r\n  \"reason\": \"Rush Deadline\",\r\n  \"isLessBreak\": false,\r\n  \"isPlusDay\": true,\r\n  \"otStatus\": \"string\",\r\n  \"isApprove\": true,\r\n  \"date\": \"{{$randomDateRecent}}\",\r\n  \"disapprovalReason\": \"\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/overtime/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"overtime",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Overtime Request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of Employee No\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/overtime/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"overtime",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Overtime Request  by id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log('BY ID RESPONSE', pm.response.json())\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of employeeNo\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/overtime/:overtimeRequestNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"overtime",
+								":overtimeRequestNo"
+							],
+							"variable": [
+								{
+									"key": "overtimeRequestNo",
+									"value": "{{pre_req_overtime_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Overtime with Employee detail",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of employeeNo\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/overtime/employee",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"overtime",
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Overtime request by id with employee details",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of employee no\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/overtime/employee/:overtimeNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"overtime",
+								"employee",
+								":overtimeNo"
+							],
+							"variable": [
+								{
+									"key": "overtimeNo",
+									"value": "{{pre_req_overtime_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update overtime request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Update One Record\", function () {\r",
+									"    pm.expect(pm.response.json().modifiedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \r\n      \"reason\": \"Rush Deadline!\"\r\n\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/overtime/:overtimeNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"overtime",
+								":overtimeNo"
+							],
+							"variable": [
+								{
+									"key": "overtimeNo",
+									"value": "{{pre_req_overtime_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post-request Delete Employee Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/employees/:employeeId",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"employees",
+								":employeeId"
+							],
+							"variable": [
+								{
+									"key": "employeeId",
+									"value": "{{pre_req_emp_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Overtime request",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);    \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Delete One Record\", function () {\r",
+									"    pm.expect(pm.response.json().deletedCount).to.be.eq(1)\r",
+									"    \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/overtime/:ovetimeNo",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"overtime",
+								":ovetimeNo"
+							],
+							"variable": [
+								{
+									"key": "ovetimeNo",
+									"value": "{{pre_req_overtime_no}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leave types",
+			"item": [
+				{
+					"name": "Get All Leave types",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);   \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Check if have property of Employee No\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.json()[0]).to.haveOwnProperty('employeeNo')\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{hrs_base_url}}/leave_types/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave_types",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Leave type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"    pm.collectionVariables.set(\"pre_req_overtime_no\", pm.response.json().overtimeRequestNo);   \r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"typeId\": \"{{$timestamp}}\",\r\n  \"typeCode\": \"SL\",\r\n  \"typeName\": \"Sick Leave\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/leave_types/",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"leave_types",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"var jsonData = pm.response.json()",
+									"pm.environment.set(\"pre_req_token\", jsonData.access_token);",
+									"pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{pre_req_username}}\",\n    \"password\": \"{{pre_req_password}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{hrs_base_url}}/login",
+							"host": [
+								"{{hrs_base_url}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{pre_req_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pre_req_emp_no",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pre_req_leave_no",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "pre_req_overtime_no",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
